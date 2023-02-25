@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="https://framerusercontent.com/modules/sLEketnWz143VEky8hJl/vUeSc32indfnDc6rzM0F/assets/iIekcuKtR5MZxZ4GXAWytyJPC8.png">
+	<title>API for VT hotline integration</title>
+	<style>
+		#wip-pic {
+			width: 500px;
+			height: 500px;
+		}
+	</style>
+</head>
+<body>
+	<h1>API for VT hotline integration</h1>
+	<h2>🚧 Work in progress 🚧</h2>
+	<input id="createRecord" type="button" value="Create record">
+	<p>It's an api for VT helpdesk integration, which connects chatwoot with airtable</p>
+	<img id="wip-pic" src="https://www.workingclassheroes.co.uk/images/products/L/Li/LinographLsBlk6.jpg" alt="WIP">
+
+	<script>
+		const button = document.querySelector('#createRecord');
+		const fetchAirtable = () => {
+			fetch('http://localhost:8888/api/hotline', {
+				method: 'POST',
+			});
+			console.log('Hoop');
+		}
+
+		button.addEventListener('click', fetchAirtable);
+	</script>
+</body>
+</html>
