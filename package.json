@@ -2,21 +2,17 @@
   "name": "hotline-api",
   "version": "0.0.1",
   "description": "It's an api for VT helpdesk integration, which connects chatwoot with airtable",
-  "main": "index.html",
+	"main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/petyapetr/hotline-api.git"
+    "url": "git+https://github.com/"Volunteers-Tbilisi/chatwoot-airtable-integration"
   },
   "author": "Slava Zakharov",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/petyapetr/hotline-api/issues"
-  },
-  "homepage": "https://github.com/petyapetr/hotline-api#readme",
   "keywords": [],
   "dependencies": {
     "airtable": "^0.11.6",
