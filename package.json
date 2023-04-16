@@ -1,6 +1,6 @@
 {
   "name": "hotline-api",
-  "version": "0.0.1",
+  "version": "0.1",
   "description": "It's an api for VT helpdesk integration, which connects chatwoot with airtable",
   "main": "index.js",
   "type": "module",

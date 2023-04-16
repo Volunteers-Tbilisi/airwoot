@@ -1,0 +1,27 @@
+{
+	"account": { "id": 1, "name": "tbilisi volunteers" },
+	"additional_attributes": { "username": "legit_borz", "language_code": "en" },
+	"avatar": "",
+	"custom_attributes": {},
+	"email": null,
+	"id": 36,
+	"identifier": null,
+	"name": "Švejk ",
+	"phone_number": null,
+	"thumbnail": "",
+	"event": "contact_updated",
+	"changed_attributes": [
+		{
+			"updated_at": {
+				"previous_value": "2023-04-16T09:00:11.500Z",
+				"current_value": "2023-04-16T09:03:42.376Z"
+			}
+		},
+		{
+			"last_activity_at": {
+				"previous_value": "2023-04-16T09:00:11.495Z",
+				"current_value": "2023-04-16T09:03:42.370Z"
+			}
+		}
+	]
+}

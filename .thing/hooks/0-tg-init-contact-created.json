@@ -1,0 +1,13 @@
+{
+	"account": { "id": 1, "name": "tbilisi volunteers" },
+	"additional_attributes": { "username": "legit_borz", "language_code": "en" },
+	"avatar": "",
+	"custom_attributes": {},
+	"email": null,
+	"id": 36,
+	"identifier": null,
+	"name": "Švejk ",
+	"phone_number": null,
+	"thumbnail": "",
+	"event": "contact_created"
+}

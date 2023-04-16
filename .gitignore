@@ -2,3 +2,4 @@
 .env
 Dockerfile
 .dockerignore
+.vscode
