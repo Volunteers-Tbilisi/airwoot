@@ -1,21 +1,21 @@
 import http from "http";
 import dotenv from "dotenv";
-import chatwoot from "./api/chatwoot.js";
+import chatwoot from "./api/chatwoot/index.js";
 
 dotenv.config();
 const hostname = process.env.HOSTNAME;
 const port = process.env.PORT;
 
 const routes = new Map();
-// routes.set("/", (body) => console.log("Coonected to default route"));
 routes.set("/api/chat-to-table/", chatwoot);
 // TODO create route to handle reverse integration from airtable back to chatwoot
+// routes.set("/api/table-to-chat", airtable);
 
 const server = http.createServer(async (req, res) => {
 	const url = new URL(req.url, `http://${req.headers.host}`);
 
 	if (req.method !== "POST" && !routes.has(url.pathname)) {
-		console.log("404");
+		console.error("Error 404: Not found end point path: " + url.pathname);
 		res.writeHead(404, { "Content-Type": "text/plain" });
 		res.end("Not found");
 		return;
@@ -34,9 +34,13 @@ const server = http.createServer(async (req, res) => {
 		try {
 			await callback(payload);
 		} catch (err) {
-			console.error(`Error loading module. `, err);
-			res.writeHead(500, { "Content-Type": "text/plain" });
-			res.end("Internal server error");
+			console.error("Error occurred while loading module: ", err);
+
+			const statusCode = err.statusCode || 500;
+			const message = err.message || "Internal server error";
+
+			res.writeHead(statusCode, { "Content-Type": "text/plain" });
+			res.end(message);
 		}
 
 		res.writeHead(200, { "Content-Type": "text/plain" });
@@ -54,6 +58,6 @@ server.on("clientError", (err, socket) => {
 
 server.on("error", (err) => {
 	if (err.code === "EACESS") {
-		console.log(`No access to port: ${port}`);
+		console.error(`No access to port: ${port}`);
 	}
 });

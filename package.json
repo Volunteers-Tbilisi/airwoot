@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"test": "npx webhookthing",
+		"test": "node server.js & npx webhookthing",
 		"lint": "eslint --fix . --ext .js"
 	},
 	"repository": {
