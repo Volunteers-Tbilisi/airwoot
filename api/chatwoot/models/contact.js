@@ -60,8 +60,14 @@ async function getContactAttr(ids) {
 }
 
 async function getContactId(body) {
-	const account_id = body.account.id;
-	const contact_id = body.conversation.id;
+	let account_id;
+	let contact_id;
+	if (body.event === "conversation_status_changed") {
+		account_id = body.messages[0].account_id;
+		contact_id = body.id;
+	}
+	account_id ??= body.account.id;
+	contact_id ??= body.conversation.id;
 	const ids = { account_id, contact_id };
 	const url = await getContactAttr(ids);
 	const id = url.split("/")[6].split("?")[0];

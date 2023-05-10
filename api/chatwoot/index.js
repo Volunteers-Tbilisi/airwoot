@@ -20,6 +20,13 @@ const handleWebhook = async (payload) => {
 				}
 			}
 			break;
+		case "conversation_status_changed":
+			if (payload.status === "resolved") {
+				await resolveTicket(payload);
+			} else if (payload.status === "open") {
+				await sendReminder(payload);
+			}
+			break;
 		default:
 			throw { message: `Unexpected type of event: ${event}`, statusCode: 501 };
 	}
@@ -96,7 +103,7 @@ async function createTicket(contact) {
 }
 
 async function updateAssignee(body) {
-	const {currentStatus, lastTicketId} = await getTicketStatus(body);
+	const { currentStatus, lastTicketId } = await getTicketStatus(body);
 	if (currentStatus !== "Новая") {
 		console.log("Ticket is already in work.");
 		return;
@@ -113,11 +120,31 @@ async function updateAssignee(body) {
 }
 
 async function getTicketStatus(body) {
+	const lastTicketId = await getLastTicketId(body);
+	const currentStatus = await ticketModel.getTicketStatus(lastTicketId);
+	return { currentStatus, lastTicketId };
+}
+
+async function getLastTicketId(body) {
 	const { contactCard, key } = await contactModel.getContactCard(body);
 	const tickets = contactCard.fields[key];
 	const lastTicketId = tickets[tickets.length - 1];
-	const currentStatus = await ticketModel.getTicketStatus(lastTicketId);
-	return {currentStatus, lastTicketId};
+	return lastTicketId;
+}
+
+async function resolveTicket(body) {
+	const lastTicketId = await getLastTicketId(body);
+	await ticketModel.updateTicketStatus(lastTicketId, "Закрыта");
+	console.log(`Ticket has been resolved (ref id: ${lastTicketId}).`);
+}
+
+async function sendReminder(body) {
+	const account_id = body.messages[0].account_id;
+	const contact_id = body.id;
+	const ids = { account_id, contact_id };
+	const contactUrl = await contactModel.getContactAttr(ids);
+	await conversationView.sendPrivateMessage(contactUrl, false, ids);
+	console.log(`Conversation has been reopened.`);
 }
 
 export default handleWebhook;

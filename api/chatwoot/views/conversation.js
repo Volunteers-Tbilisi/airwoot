@@ -1,7 +1,9 @@
 import * as chatwoot from "../services/chatwoot.js";
 
 async function sendPrivateMessage(contact, ticket, ids) {
-	const content = `По этому запроса было создано новое обращение: ${ticket} \n\n Карточка контакта: ${contact}`;
+	const content = ticket
+		? `По этому запроса было создано новое обращение: ${ticket} \n\n Карточка контакта: ${contact}`
+		: `Создайте новое обращение в карточке контакта для возобновлёного диалога: ${contact}`;
 	const body = {
 		content,
 		message_type: "outgoing",
