@@ -96,12 +96,7 @@ async function createTicket(contact) {
 }
 
 async function updateAssignee(body) {
-	// TODO wrap it in a top-level try catch block
-	const { contactCard, key } = await contactModel.getContactCard(body);
-	const tickets = contactCard.fields[key];
-	const lastTicketId = tickets[tickets.length - 1];
-
-	const currentStatus = await ticketModel.getTicketStatus(lastTicketId);
+	const {currentStatus, lastTicketId} = await getTicketStatus(body);
 	if (currentStatus !== "Новая") {
 		console.log("Ticket is already in work.");
 		return;
@@ -117,8 +112,12 @@ async function updateAssignee(body) {
 	);
 }
 
-// async checkStatus() {
-
-// }
+async function getTicketStatus(body) {
+	const { contactCard, key } = await contactModel.getContactCard(body);
+	const tickets = contactCard.fields[key];
+	const lastTicketId = tickets[tickets.length - 1];
+	const currentStatus = await ticketModel.getTicketStatus(lastTicketId);
+	return {currentStatus, lastTicketId};
+}
 
 export default handleWebhook;
