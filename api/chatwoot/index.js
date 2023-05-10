@@ -1,7 +1,7 @@
 import * as contactModel from "./models/contact.js";
 import * as ticketModel from "./models/ticket.js";
 import * as operatorModel from "./models/operator.js";
-import * as view from "./views/main.js";
+import * as conversationView from "./views/conversation.js";
 
 const handleWebhook = async (payload) => {
 	const event = payload.event;
@@ -10,12 +10,14 @@ const handleWebhook = async (payload) => {
 			await initConversation(payload);
 			break;
 		}
-		case "contact_updated":
-			// updateContact(payload);
-			break;
 		case "message_updated":
 			if (payload.message_type === "outgoing") {
-				await updateAssignee(payload);
+				try {
+					await updateAssignee(payload);
+				} catch (err) {
+					console.error(err);
+					return;
+				}
 			}
 			break;
 		default:
@@ -40,7 +42,7 @@ async function initConversation(body) {
 	// send private msg to chatwoot
 	const ticketURL = await ticketModel.getTicketUrl(ticket);
 	const contactUrl = await contactModel.getContactAttr(ids);
-	await view.sendPrivateMessage(contactUrl, ticketURL, ids);
+	await conversationView.sendPrivateMessage(contactUrl, ticketURL, ids);
 	console.log("New ticket has been created.");
 }
 
@@ -95,32 +97,28 @@ async function createTicket(contact) {
 
 async function updateAssignee(body) {
 	// TODO wrap it in a top-level try catch block
-	let lastTicketId;
-	try {
-		lastTicketId = await contactModel.getContactCard(body);
-	} catch (err) {
-		console.error(err);
-	}
+	const { contactCard, key } = await contactModel.getContactCard(body);
+	const tickets = contactCard.fields[key];
+	const lastTicketId = tickets[tickets.length - 1];
 
-	try {
-		await ticketModel.updateTicketStatus(lastTicketId, "В работе");
-	} catch (err) {
-		console.error(err);
+	const currentStatus = await ticketModel.getTicketStatus(lastTicketId);
+	if (currentStatus !== "Новая") {
+		console.log("Ticket is already in work.");
+		return;
 	}
-	
+	await ticketModel.updateTicketStatus(lastTicketId, "В работе");
+
 	const assignee = body.sender.name;
 	const assigneeId = await operatorModel.getOperatorId(assignee);
-	try {
-		await ticketModel.updateAssignee(lastTicketId, assigneeId);
-	} catch (err) {
-		console.error(err);
-	}
+	await ticketModel.updateAssignee(lastTicketId, assigneeId);
 
 	console.log(
 		`Ticket status was changed. Ticket was assigned to an operator (ref id: ${assigneeId}).`
 	);
 }
 
-// async function updateContact(body) {}
+// async checkStatus() {
+
+// }
 
 export default handleWebhook;

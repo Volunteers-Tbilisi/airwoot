@@ -26,10 +26,9 @@ async function createContact(obj) {
 
 async function getContactCard(body) {
 	const contactId = await getContactId(body);
-	const card = await airtable.findRecord(tableId, contactId);
-	const key = tableFieldNames.get('tickets')
-	const tickets = card.fields[key];
-	return tickets[tickets.length - 1];
+	const contactCard = await airtable.findRecord(tableId, contactId);
+	const key = tableFieldNames.get("tickets");
+	return { contactCard, key };
 }
 
 async function getContacts() {
