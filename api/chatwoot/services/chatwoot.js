@@ -26,16 +26,13 @@ async function getContactAttr(ids) {
 		},
 	});
 	const data = await res.json();
-	console.log("look here");
-
-	console.log(data);
 	return data;
 }
 
 async function sendMsg(data, ids) {
 	const url = getConversationUrl(ids);
 	await fetch(url, {
-		method: "GET",
+		method: "POST",
 		headers: {
 			"Content-Type": "application/json; charset=UTF-8",
 			api_access_token: TOKEN,
@@ -52,8 +49,6 @@ function getContactUrl(ids) {
 
 function getConversationUrl(ids) {
 	const { account_id, contact_id } = ids;
-	// 											/accounts/{account_id}/conversations/{conversation_id}/messages
-
 	const url = `${BASE_URL}/accounts/${account_id}/conversations/${contact_id}/messages`;
 	return url;
 }

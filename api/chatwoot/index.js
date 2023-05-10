@@ -37,8 +37,9 @@ async function initConversation(body) {
 
 	// send private msg to chatwoot
 	const ticketURL = await ticketModel.getTicketUrl(ticket);
-	const contactUrl = await contactModel.getContactAttr("airtable", true, ids);
+	const contactUrl = await contactModel.getContactAttr(ids);
 	await view.sendPrivateMessage(contactUrl, ticketURL, ids);
+	console.log('New ticket has been created.')
 }
 
 // internal services for handling buisness logic

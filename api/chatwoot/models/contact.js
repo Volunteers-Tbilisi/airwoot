@@ -51,8 +51,8 @@ async function fillContactAttr(attr, value, custom = true, ids) {
 }
 
 async function getContactAttr(ids) {
-	const payload = await chatwoot.getContactAttr(ids);
-	const contactUrl = payload.contact.custom_attributes.airtable;
+	const res = await chatwoot.getContactAttr(ids);
+	const contactUrl = res.payload.custom_attributes.airtable;
 	return contactUrl;
 }
 
