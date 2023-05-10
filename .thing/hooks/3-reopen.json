@@ -1,5 +1,7 @@
 {
-	"additional_attributes": { "chat_id": 5408272817 },
+	"additional_attributes": {
+		"chat_id": 5408272817
+	},
 	"can_reply": true,
 	"channel": "Channel::Telegram",
 	"contact_inbox": {
@@ -16,17 +18,17 @@
 	"inbox_id": 4,
 	"messages": [
 		{
-			"id": 256,
-			"content": "нет спасибо. благодарю за помощь",
+			"id": 304,
+			"content": "нихуя подобного",
 			"account_id": 1,
 			"inbox_id": 4,
 			"conversation_id": 36,
 			"message_type": 0,
-			"created_at": 1681636783,
-			"updated_at": "2023-04-16T09:19:43.874Z",
+			"created_at": 1683744562,
+			"updated_at": "2023-05-10T18:49:22.648Z",
 			"private": false,
 			"status": "sent",
-			"source_id": "45",
+			"source_id": "49",
 			"content_type": "text",
 			"content_attributes": {},
 			"sender_type": "Contact",
@@ -34,16 +36,26 @@
 			"external_source_ids": {},
 			"additional_attributes": {},
 			"label_list": null,
-			"conversation": { "assignee_id": 6, "unread_count": 0 },
+			"conversation": {
+				"assignee_id": 6,
+				"unread_count": 1
+			},
 			"sender": {
 				"additional_attributes": {
 					"username": "legit_borz",
 					"description": "",
 					"company_name": "",
 					"language_code": "en",
-					"social_profiles": { "github": "", "twitter": "", "facebook": "", "linkedin": "" }
+					"social_profiles": {
+						"github": "",
+						"twitter": "",
+						"facebook": "",
+						"linkedin": ""
+					}
 				},
-				"custom_attributes": {},
+				"custom_attributes": {
+					"airtable": "https://airtable.com/apprK4TfD5dt85soV/tbl7GceeuHNdKaBds/viwbavo66Wk0UUwXj/rec6FvAFM249NJbFU?blocks=hide"
+				},
 				"email": null,
 				"id": 36,
 				"identifier": null,
@@ -62,9 +74,16 @@
 				"description": "",
 				"company_name": "",
 				"language_code": "en",
-				"social_profiles": { "github": "", "twitter": "", "facebook": "", "linkedin": "" }
+				"social_profiles": {
+					"github": "",
+					"twitter": "",
+					"facebook": "",
+					"linkedin": ""
+				}
 			},
-			"custom_attributes": {},
+			"custom_attributes": {
+				"airtable": "https://airtable.com/apprK4TfD5dt85soV/tbl7GceeuHNdKaBds/viwbavo66Wk0UUwXj/rec6FvAFM249NJbFU?blocks=hide"
+			},
 			"email": null,
 			"id": 36,
 			"identifier": null,
@@ -79,29 +98,21 @@
 			"available_name": "Slava",
 			"avatar_url": "",
 			"type": "user",
-			"availability_status": "online",
+			"availability_status": null,
 			"thumbnail": ""
 		},
 		"team": null,
 		"hmac_verified": false
 	},
-	"status": "resolved",
+	"status": "open",
 	"custom_attributes": {},
 	"snoozed_until": null,
-	"unread_count": 0,
+	"unread_count": 1,
 	"first_reply_created_at": "2023-04-16T09:07:49.877Z",
-	"agent_last_seen_at": 1681636784,
+	"agent_last_seen_at": 1683744535,
 	"contact_last_seen_at": 0,
-	"timestamp": 1681637252,
+	"timestamp": 1683744526,
 	"created_at": 1681635611,
-	"event": "conversation_updated",
-	"changed_attributes": [
-		{ "status": { "previous_value": "open", "current_value": "resolved" } },
-		{
-			"updated_at": {
-				"previous_value": "2023-04-16T09:19:43.876Z",
-				"current_value": "2023-04-16T09:27:32.505Z"
-			}
-		}
-	]
+	"event": "conversation_status_changed",
+	"changed_attributes": null
 }
