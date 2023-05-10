@@ -9,9 +9,10 @@ const viewId = process.env.VIEW_CONTACTS_DEFAULT;
 const tableFieldNames = new Map([
 	["name", "Имя"],
 	["phone", "Номер телефона"],
-	["tg", "Telegram"],
+	["tg", "Telegram nickname"],
 	["wa", "What'sApp"],
 	["tickets", "Обращения"],
+	["identifier", "Telegram id"],
 ]);
 
 async function createContact(obj) {

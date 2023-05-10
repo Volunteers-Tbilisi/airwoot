@@ -59,6 +59,7 @@ async function createContact(body) {
 	const phone = body.phone_number || null;
 	const tg = body.additional_attributes.username || null;
 	const wa = body.phone_number || null; // TODO check wa hook
+	const identifier = body.identifier || null;
 
 	// get a list of contacts
 	let contacts = [];
@@ -70,12 +71,16 @@ async function createContact(body) {
 
 	// check if contact does exsist
 	let contactRecord = contacts.find(
-		(record) => record.phone === phone || record.tg === tg || record.wa === wa
+		(record) =>
+			record.phone === phone ||
+			record.tg === tg ||
+			record.wa === wa ||
+			record.identifier === identifier
 	);
 	// TODO fetch person info from exisisting contact card & fill it in
 	// create if it doesn't exsist
 	try {
-		contactRecord ??= await contactModel.createContact({ name, phone, tg, wa });
+		contactRecord ??= await contactModel.createContact({ name, phone, tg, wa, identifier });
 	} catch (err) {
 		console.error(err);
 	}

@@ -13,7 +13,7 @@ async function sendPrivateMessage(contact, ticket, ids) {
 	try {
 		await chatwoot.sendMsg(body, ids);
 	} catch (err) {
-		console.log(err);
+		throw { message: err, statusCode: 500 };
 	}
 }
 
