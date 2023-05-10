@@ -5,7 +5,7 @@ const TOKEN = process.env.CHATWOOT_TOKEN;
 const BASE_URL = process.env.CHATWOOT_API_URL;
 
 async function updateContactAttr(data, ids) {
-	const url = serializeContactUrl(ids);
+	const url = getContactUrl(ids);
 	await fetch(url, {
 		method: "PUT",
 		headers: {
@@ -17,21 +17,45 @@ async function updateContactAttr(data, ids) {
 }
 
 async function getContactAttr(ids) {
-	const url = serializeContactUrl(ids);
-	const contact = await fetch(url, {
+	const url = getContactUrl(ids);
+	const res = await fetch(url, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json; charset=UTF-8",
 			api_access_token: TOKEN,
 		},
 	});
-	return contact;
+	const data = await res.json();
+	console.log("look here");
+
+	console.log(data);
+	return data;
 }
 
-function serializeContactUrl(ids) {
+async function sendMsg(data, ids) {
+	const url = getConversationUrl(ids);
+	await fetch(url, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json; charset=UTF-8",
+			api_access_token: TOKEN,
+		},
+		body: JSON.stringify(data),
+	});
+}
+
+function getContactUrl(ids) {
 	const { account_id, contact_id } = ids;
 	const url = `${BASE_URL}/accounts/${account_id}/contacts/${contact_id}`;
 	return url;
 }
 
-export { updateContactAttr, getContactAttr };
+function getConversationUrl(ids) {
+	const { account_id, contact_id } = ids;
+	// 											/accounts/{account_id}/conversations/{conversation_id}/messages
+
+	const url = `${BASE_URL}/accounts/${account_id}/conversations/${contact_id}/messages`;
+	return url;
+}
+
+export { updateContactAttr, getContactAttr, sendMsg };

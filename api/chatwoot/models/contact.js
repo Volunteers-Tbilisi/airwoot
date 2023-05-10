@@ -45,7 +45,7 @@ async function fillContactAttr(attr, value, custom = true, ids) {
 		value = airtable.serializeUrl(tableId, viewId, value);
 	}
 	if (custom) {
-		value = { custom_attributes: { attr: value } };
+		value = { custom_attributes: { [attr]: value } };
 	}
 	await chatwoot.updateContactAttr(value, ids);
 }

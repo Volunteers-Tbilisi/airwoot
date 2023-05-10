@@ -1,5 +1,6 @@
 import * as contactModel from "./models/contact.js";
 import * as ticketModel from "./models/ticket.js";
+import * as view from "./views/main.js";
 
 const handleWebhook = async (payload) => {
 	const event = payload.event;
@@ -21,13 +22,14 @@ const handleWebhook = async (payload) => {
 };
 
 async function initConversation(body) {
+	const account_id = body.account.id;
+	const contact_id = body.id;
+	const ids = { account_id, contact_id };
+
 	// find or create contact card in airtable
 	const contactRecord = await createContact(body);
 
 	// upd chatwoot contact
-	const account_id = body.account.id;
-	const contact_id = body.id;
-	const ids = { account_id, contact_id };
 	await contactModel.fillContactAttr("airtable", contactRecord.id, true, ids);
 
 	// create ticket in airtable
@@ -35,8 +37,8 @@ async function initConversation(body) {
 
 	// send private msg to chatwoot
 	const ticketURL = await ticketModel.getTicketUrl(ticket);
-	const contactUrl = await contactModel.getContactAttr("Airtable", true, ids);
-	
+	const contactUrl = await contactModel.getContactAttr("airtable", true, ids);
+	await view.sendPrivateMessage(contactUrl, ticketURL, ids);
 }
 
 // internal services for handling buisness logic
@@ -77,9 +79,11 @@ async function createTicket(contact) {
 		timeZone: "Asia/Tbilisi",
 	});
 	const status = "Новая";
+	const name = [];
+	name.push(contact);
 
 	try {
-		const ticket = await ticketModel.createTicket(date, [contact], status);
+		const ticket = await ticketModel.createTicket({ date, name, status });
 		return ticket;
 	} catch (err) {
 		console.error(err);

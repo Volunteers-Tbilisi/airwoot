@@ -32,7 +32,7 @@ async function createRecord(tableId, fields) {
 		const newRecord = await table.create(fields);
 		return newRecord;
 	} catch (err) {
-		throw { message: `Couldn't write to a table (ref id: ${tableId})`, statusCode: 500 };
+		throw { message: `Couldn't write to a table (ref id: ${tableId}) due to: ${err}`, statusCode: 500 };
 	}
 }
 
