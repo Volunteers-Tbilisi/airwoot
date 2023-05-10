@@ -1,20 +1,22 @@
 import * as contactModel from "./models/contact.js";
 import * as ticketModel from "./models/ticket.js";
+import * as operatorModel from "./models/operator.js";
 import * as view from "./views/main.js";
 
 const handleWebhook = async (payload) => {
 	const event = payload.event;
-
 	switch (event) {
 		case "contact_created": {
-			initConversation(payload);
-			// createContact(payload);
+			await initConversation(payload);
 			break;
 		}
 		case "contact_updated":
 			// updateContact(payload);
 			break;
-		case "":
+		case "message_updated":
+			if (payload.message_type === "outgoing") {
+				await updateAssignee(payload);
+			}
 			break;
 		default:
 			throw { message: `Unexpected type of event: ${event}`, statusCode: 501 };
@@ -39,7 +41,7 @@ async function initConversation(body) {
 	const ticketURL = await ticketModel.getTicketUrl(ticket);
 	const contactUrl = await contactModel.getContactAttr(ids);
 	await view.sendPrivateMessage(contactUrl, ticketURL, ids);
-	console.log('New ticket has been created.')
+	console.log("New ticket has been created.");
 }
 
 // internal services for handling buisness logic
@@ -89,6 +91,34 @@ async function createTicket(contact) {
 	} catch (err) {
 		console.error(err);
 	}
+}
+
+async function updateAssignee(body) {
+	// TODO wrap it in a top-level try catch block
+	let lastTicketId;
+	try {
+		lastTicketId = await contactModel.getContactCard(body);
+	} catch (err) {
+		console.error(err);
+	}
+
+	try {
+		await ticketModel.updateTicketStatus(lastTicketId, "В работе");
+	} catch (err) {
+		console.error(err);
+	}
+	
+	const assignee = body.sender.name;
+	const assigneeId = await operatorModel.getOperatorId(assignee);
+	try {
+		await ticketModel.updateAssignee(lastTicketId, assigneeId);
+	} catch (err) {
+		console.error(err);
+	}
+
+	console.log(
+		`Ticket status was changed. Ticket was assigned to an operator (ref id: ${assigneeId}).`
+	);
 }
 
 // async function updateContact(body) {}

@@ -11,7 +11,7 @@ const tableFieldNames = new Map([
 	["phone", "Номер телефона"],
 	["tg", "Telegram"],
 	["wa", "What'sApp"],
-	// ["tickets", "Обращения"],
+	["tickets", "Обращения"],
 ]);
 
 async function createContact(obj) {
@@ -24,8 +24,12 @@ async function createContact(obj) {
 	return newContact;
 }
 
-async function updateContact() {
-	console.log("Contact have been updated");
+async function getContactCard(body) {
+	const contactId = await getContactId(body);
+	const card = await airtable.findRecord(tableId, contactId);
+	const key = tableFieldNames.get('tickets')
+	const tickets = card.fields[key];
+	return tickets[tickets.length - 1];
 }
 
 async function getContacts() {
@@ -56,4 +60,13 @@ async function getContactAttr(ids) {
 	return contactUrl;
 }
 
-export { createContact, updateContact, getContacts, fillContactAttr, getContactAttr };
+async function getContactId(body) {
+	const account_id = body.account.id;
+	const contact_id = body.conversation.id;
+	const ids = { account_id, contact_id };
+	const url = await getContactAttr(ids);
+	const id = url.split("/")[6].split("?")[0];
+	return id;
+}
+
+export { createContact, getContactCard, getContacts, fillContactAttr, getContactAttr };

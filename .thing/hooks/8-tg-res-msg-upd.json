@@ -1,98 +1,117 @@
 {
-	"account": { "id": 1, "name": "tbilisi volunteers" },
-	"additional_attributes": {},
-	"content_attributes": {},
-	"content_type": "text",
-	"content": "Здравствуйте, получили ваш запрос, уже работаем над ним.\\\nСкажите, как я могу к вам обращаться?\n",
-	"conversation": {
-		"additional_attributes": { "chat_id": 5408272817 },
-		"can_reply": true,
-		"channel": "Channel::Telegram",
-		"contact_inbox": {
-			"id": 42,
-			"contact_id": 36,
-			"inbox_id": 4,
-			"source_id": "5408272817",
-			"created_at": "2023-04-16T09:00:11.116Z",
-			"updated_at": "2023-04-16T09:00:11.116Z",
-			"hmac_verified": false,
-			"pubsub_token": "BsrxgTTxieywtZfBHNGMVNYB"
-		},
-		"id": 36,
-		"inbox_id": 4,
-		"messages": [
-			{
-				"id": 252,
-				"content": "Здравствуйте, получили ваш запрос, уже работаем над ним.\\\nСкажите, как я могу к вам обращаться?\n",
-				"account_id": 1,
-				"inbox_id": 4,
-				"conversation_id": 36,
-				"message_type": 1,
-				"created_at": 1681636069,
-				"updated_at": "2023-04-16T09:07:50.346Z",
-				"private": false,
-				"status": "sent",
-				"source_id": "41",
-				"content_type": "text",
-				"content_attributes": {},
-				"sender_type": "User",
-				"sender_id": 6,
-				"external_source_ids": {},
-				"additional_attributes": {},
-				"label_list": null,
-				"conversation": { "assignee_id": 6, "unread_count": 0 },
-				"sender": {
-					"id": 6,
-					"name": "Slava",
-					"available_name": "Slava",
-					"avatar_url": "",
-					"type": "user",
-					"availability_status": null,
-					"thumbnail": ""
-				}
-			}
-		],
-		"labels": [],
-		"meta": {
-			"sender": {
-				"additional_attributes": { "username": "legit_borz", "language_code": "en" },
-				"custom_attributes": {},
-				"email": null,
-				"id": 36,
-				"identifier": null,
-				"name": "Švejk ",
-				"phone_number": null,
-				"thumbnail": "",
-				"type": "contact"
-			},
-			"assignee": {
-				"id": 6,
-				"name": "Slava",
-				"available_name": "Slava",
-				"avatar_url": "",
-				"type": "user",
-				"availability_status": null,
-				"thumbnail": ""
-			},
-			"team": null,
-			"hmac_verified": false
-		},
-		"status": "open",
-		"custom_attributes": {},
-		"snoozed_until": null,
-		"unread_count": 0,
-		"first_reply_created_at": "2023-04-16T09:07:49.877Z",
-		"agent_last_seen_at": 1681636070,
-		"contact_last_seen_at": 0,
-		"timestamp": 1681636069,
-		"created_at": 1681635611
-	},
-	"created_at": "2023-04-16T09:07:49.877Z",
-	"id": 252,
-	"inbox": { "id": 4, "name": "vthotlinebot" },
-	"message_type": "outgoing",
-	"private": false,
-	"sender": { "id": 6, "name": "Slava", "email": "beaterpetr@mailbox.org", "type": "user" },
-	"source_id": "41",
-	"event": "message_updated"
+  "account": {
+    "id": 1,
+    "name": "tbilisi volunteers"
+  },
+  "additional_attributes": {},
+  "content_attributes": {},
+  "content_type": "text",
+  "content": "Здравствуйте, получили ваш запрос, уже работаем над ним.\\\nСкажите, как я могу к вам обращаться?\n",
+  "conversation": {
+    "additional_attributes": {
+      "chat_id": 5408272817
+    },
+    "can_reply": true,
+    "channel": "Channel::Telegram",
+    "contact_inbox": {
+      "id": 42,
+      "contact_id": 36,
+      "inbox_id": 4,
+      "source_id": "5408272817",
+      "created_at": "2023-04-16T09:00:11.116Z",
+      "updated_at": "2023-04-16T09:00:11.116Z",
+      "hmac_verified": false,
+      "pubsub_token": "BsrxgTTxieywtZfBHNGMVNYB"
+    },
+    "id": 36,
+    "inbox_id": 4,
+    "messages": [
+      {
+        "id": 252,
+        "content": "Здравствуйте, получили ваш запрос, уже работаем над ним.\\\nСкажите, как я могу к вам обращаться?\n",
+        "account_id": 1,
+        "inbox_id": 4,
+        "conversation_id": 36,
+        "message_type": 1,
+        "created_at": 1681636069,
+        "updated_at": "2023-04-16T09:07:50.346Z",
+        "private": false,
+        "status": "sent",
+        "source_id": "41",
+        "content_type": "text",
+        "content_attributes": {},
+        "sender_type": "User",
+        "sender_id": 6,
+        "external_source_ids": {},
+        "additional_attributes": {},
+        "label_list": null,
+        "conversation": {
+          "assignee_id": 6,
+          "unread_count": 0
+        },
+        "sender": {
+          "id": 6,
+          "name": "Slava",
+          "available_name": "Slava",
+          "avatar_url": "",
+          "type": "user",
+          "availability_status": null,
+          "thumbnail": ""
+        }
+      }
+    ],
+    "labels": [],
+    "meta": {
+      "sender": {
+        "additional_attributes": {
+          "username": "legit_borz",
+          "language_code": "en"
+        },
+        "custom_attributes": {},
+        "email": null,
+        "id": 36,
+        "identifier": null,
+        "name": "Švejk ",
+        "phone_number": null,
+        "thumbnail": "",
+        "type": "contact"
+      },
+      "assignee": {
+        "id": 6,
+        "name": "Slava",
+        "available_name": "Slava",
+        "avatar_url": "",
+        "type": "user",
+        "availability_status": null,
+        "thumbnail": ""
+      },
+      "team": null,
+      "hmac_verified": false
+    },
+    "status": "open",
+    "custom_attributes": {},
+    "snoozed_until": null,
+    "unread_count": 0,
+    "first_reply_created_at": "2023-04-16T09:07:49.877Z",
+    "agent_last_seen_at": 1681636070,
+    "contact_last_seen_at": 0,
+    "timestamp": 1681636069,
+    "created_at": 1681635611
+  },
+  "created_at": "2023-04-16T09:07:49.877Z",
+  "id": 252,
+  "inbox": {
+    "id": 4,
+    "name": "vthotlinebot"
+  },
+  "message_type": "outgoing",
+  "private": false,
+  "sender": {
+    "id": 6,
+    "name": "Slava",
+    "email": "beaterpetr@mailbox.org",
+    "type": "user"
+  },
+  "source_id": "41",
+  "event": "message_updated"
 }

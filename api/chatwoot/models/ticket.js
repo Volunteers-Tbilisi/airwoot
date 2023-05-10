@@ -22,8 +22,25 @@ async function createTicket(obj) {
 	return newTicket.id;
 }
 
+async function updateTicketStatus(id, status) {
+	const key = tableFieldNames.get("status");
+	const fields = {
+		[key]: status,
+	};
+	await airtable.updateRecord(tableId, id, fields);
+}
+
+async function updateAssignee(id, assignee) {
+	const key = tableFieldNames.get("operator");
+	const fields = {
+		[key]: [assignee],
+	};
+	console.log(fields);
+	await airtable.updateRecord(tableId, id, fields);
+}
+
 function getTicketUrl(id) {
 	return airtable.serializeUrl(tableId, viewId, id);
 }
 
-export { createTicket, getTicketUrl };
+export { createTicket, getTicketUrl, updateTicketStatus, updateAssignee };
