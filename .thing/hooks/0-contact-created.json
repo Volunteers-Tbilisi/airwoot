@@ -11,7 +11,7 @@
 	"custom_attributes": {},
 	"email": null,
 	"id": 36,
-	"identifier": null,
+	"identifier": "<unique_tg_id>",
 	"name": "Švejk ",
 	"phone_number": null,
 	"thumbnail": "",
