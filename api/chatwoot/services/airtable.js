@@ -36,9 +36,9 @@ async function createRecord(tableId, fields) {
 	}
 }
 
-function serializeURL(TABLE_ID, VIEW_ID, RECORD_ID) {
+function serializeUrl(TABLE_ID, VIEW_ID, RECORD_ID) {
 	const url = `https://airtable.com/${BASE_ID}/${TABLE_ID}/${VIEW_ID}/${RECORD_ID}?blocks=hide`;
 	return url;
 }
 
-export { getRecords, createRecord, serializeURL };
+export { getRecords, createRecord, serializeUrl };

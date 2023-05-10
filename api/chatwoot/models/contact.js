@@ -11,7 +11,7 @@ const tableFieldNames = new Map([
 	["phone", "Номер телефона"],
 	["tg", "Telegram"],
 	["wa", "What'sApp"],
-	["tickets", "Обращения"],
+	// ["tickets", "Обращения"],
 ]);
 
 async function createContact(obj) {
@@ -41,13 +41,19 @@ async function getContacts() {
 }
 
 async function fillContactAttr(attr, value, custom = true, ids) {
-	if (attr === "Airtable") {
-		value = airtable.serializeURL(tableId, viewId, value);
+	if (attr === "airtable") {
+		value = airtable.serializeUrl(tableId, viewId, value);
 	}
 	if (custom) {
-		value = { custom_attributes: { [attr]: value } };
+		value = { custom_attributes: { attr: value } };
 	}
-	await chatwoot.updateAttr(value, ids);
+	await chatwoot.updateContactAttr(value, ids);
 }
 
-export { createContact, updateContact, getContacts, fillContactAttr };
+async function getContactAttr(ids) {
+	const payload = await chatwoot.getContactAttr(ids);
+	const contactUrl = payload.contact.custom_attributes.airtable;
+	return contactUrl;
+}
+
+export { createContact, updateContact, getContacts, fillContactAttr, getContactAttr };
