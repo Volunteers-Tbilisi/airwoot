@@ -1,6 +1,7 @@
 import * as contactModel from "./models/contact.js";
 import * as ticketModel from "./models/ticket.js";
 import * as operatorModel from "./models/operator.js";
+import * as channelModel from "./models/channel.js";
 import * as conversationView from "./views/conversation.js";
 
 const handleWebhook = async (payload) => {
@@ -12,8 +13,10 @@ const handleWebhook = async (payload) => {
 		}
 		case "message_updated":
 			if (payload.message_type === "outgoing") {
+				const lastTicketId = await getLastTicketId(payload);
 				try {
-					await updateAssignee(payload);
+					await updateAssignee(payload, lastTicketId);
+					await updateSource(payload, lastTicketId);
 				} catch (err) {
 					console.error(err);
 					return;
@@ -109,7 +112,7 @@ async function createTicket(contactId, metadata) {
 	}
 }
 
-async function updateAssignee(body) {
+async function updateAssignee(body, lastTicketId) {
 	/* 	const { currentStatus, lastTicketId } = await getTicketStatus(body);
 	if (currentStatus !== "Новая") {
 		console.log("Ticket is already in work.");
@@ -119,10 +122,39 @@ async function updateAssignee(body) {
 
 	const assignee = body.sender.name;
 	const assigneeId = await operatorModel.getOperatorId(assignee);
-	const lastTicketId = await getLastTicketId(body);
 	await ticketModel.updateAssignee(lastTicketId, assigneeId);
 
 	console.log(`Ticket was assigned to an operator (ref id: ${assigneeId}).`);
+}
+
+async function updateSource(body, lastTicketId) {
+	const exisistingChannel = await ticketModel.getTicketChannel(lastTicketId);
+	if (!!exisistingChannel) {
+			console.log(`Ticket channel remains unchanged. (ref id: ${exisistingChannel}).`);
+		return;
+	}
+
+	const source = body.conversation.channel;
+	let channelName = undefined;
+	switch (source) {
+		case "Channel::Telegram":
+		case "Channel: : Api":
+			channelName = "Telegram";
+			break;
+		case "Channel::What's Up": //TODO add what's up channel source
+		default:
+			channelName = null;
+	}
+
+	if (!!channelName) {
+			console.log(`Ticket channel name is undefined.`);
+		return;
+	}
+
+	const channelId = await channelModel.getChannelId(channelName);
+
+	await ticketModel.updateChannel(lastTicketId, channelId);
+	console.log(`Ticket channel was assigned to a (ref id: ${channelId}).`);
 }
 
 // unused due to comments from organisation coordinator due to exsisting airtable automations
