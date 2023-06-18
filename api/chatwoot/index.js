@@ -44,7 +44,7 @@ async function initConversation(body) {
 	await contactModel.fillContactAttr("airtable", contactRecord.id, true, ids);
 
 	// create ticket in airtable
-	const ticket = await createTicket(contactRecord.id);
+	const ticket = await createTicket(contactRecord.id, body);
 
 	// send private msg to chatwoot
 	const ticketURL = await ticketModel.getTicketUrl(ticket);
@@ -88,7 +88,7 @@ async function createContact(body) {
 	return contactRecord;
 }
 
-async function createTicket(contact) {
+async function createTicket(contactId, metadata) {
 	const date = new Date().toLocaleDateString("en-CA", {
 		year: "numeric",
 		month: "2-digit",
@@ -97,10 +97,12 @@ async function createTicket(contact) {
 	});
 	const status = "Новая";
 	const name = [];
-	name.push(contact);
+	name.push(contactId);
+
+	const phone = metadata.phone_number || metadata.identifier || metadata.name;
 
 	try {
-		const ticket = await ticketModel.createTicket({ date, name, status });
+		const ticket = await ticketModel.createTicket({ date, name, status, phone });
 		return ticket;
 	} catch (err) {
 		console.error(err);
@@ -151,7 +153,7 @@ async function reopenConversation(body) {
 	// create ticket in airtable
 	const contactUrl = await contactModel.getContactAttr(ids);
 	const contactRecordId = contactUrl.split("/")[6].split("?")[0];
-	const ticket = await createTicket(contactRecordId);
+	const ticket = await createTicket(contactRecordId, body.meta);
 
 	// send private msg to chatwoot
 	const ticketURL = await ticketModel.getTicketUrl(ticket);
