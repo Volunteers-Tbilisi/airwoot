@@ -75,4 +75,4 @@ async function getContactId(body) {
 	return id;
 }
 
-export { createContact, getContactCard, getContacts, fillContactAttr, getContactAttr };
+export { createContact, getContactCard, getContacts, fillContactAttr, getContactAttr, getContactId };

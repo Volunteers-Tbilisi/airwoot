@@ -24,7 +24,7 @@ const handleWebhook = async (payload) => {
 			if (payload.status === "resolved") {
 				await resolveTicket(payload);
 			} else if (payload.status === "open") {
-				await sendReminder(payload);
+				await reopenConversation(payload);
 			}
 			break;
 		default:
@@ -50,7 +50,7 @@ async function initConversation(body) {
 	const ticketURL = await ticketModel.getTicketUrl(ticket);
 	const contactUrl = await contactModel.getContactAttr(ids);
 	await conversationView.sendPrivateMessage(contactUrl, ticketURL, ids);
-	console.log("New ticket has been created.");
+	console.log("Conversation has been initialized. New ticket has been created.");
 }
 
 // internal services for handling buisness logic
@@ -108,22 +108,22 @@ async function createTicket(contact) {
 }
 
 async function updateAssignee(body) {
-	const { currentStatus, lastTicketId } = await getTicketStatus(body);
+	/* 	const { currentStatus, lastTicketId } = await getTicketStatus(body);
 	if (currentStatus !== "Новая") {
 		console.log("Ticket is already in work.");
 		return;
 	}
-	await ticketModel.updateTicketStatus(lastTicketId, "В работе");
+	await ticketModel.updateTicketStatus(lastTicketId, "В работе"); */
 
 	const assignee = body.sender.name;
 	const assigneeId = await operatorModel.getOperatorId(assignee);
+	const lastTicketId = await getLastTicketId(body);
 	await ticketModel.updateAssignee(lastTicketId, assigneeId);
 
-	console.log(
-		`Ticket status was changed. Ticket was assigned to an operator (ref id: ${assigneeId}).`
-	);
+	console.log(`Ticket was assigned to an operator (ref id: ${assigneeId}).`);
 }
 
+// unused due to comments from organisation coordinator due to exsisting airtable automations
 async function getTicketStatus(body) {
 	const lastTicketId = await getLastTicketId(body);
 	const currentStatus = await ticketModel.getTicketStatus(lastTicketId);
@@ -143,13 +143,20 @@ async function resolveTicket(body) {
 	console.log(`Ticket has been resolved (ref id: ${lastTicketId}).`);
 }
 
-async function sendReminder(body) {
+async function reopenConversation(body) {
 	const account_id = body.messages[0].account_id;
 	const contact_id = body.id;
 	const ids = { account_id, contact_id };
+
+	// create ticket in airtable
 	const contactUrl = await contactModel.getContactAttr(ids);
-	await conversationView.sendPrivateMessage(contactUrl, false, ids);
-	console.log(`Conversation has been reopened.`);
+	const contactRecordId = contactUrl.split("/")[6].split("?")[0];
+	const ticket = await createTicket(contactRecordId);
+
+	// send private msg to chatwoot
+	const ticketURL = await ticketModel.getTicketUrl(ticket);
+	await conversationView.sendPrivateMessage(contactUrl, ticketURL, ids);
+	console.log(`Conversation has been reopened. New ticket has been created.`);
 }
 
 export default handleWebhook;
