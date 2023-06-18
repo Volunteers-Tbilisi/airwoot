@@ -6,7 +6,7 @@
 	"type": "module",
 	"scripts": {
 		"test": "node server.js & npx webhookthing",
-		"start": "node server.js"
+		"start": "node server.js",
 		"lint": "eslint --fix . --ext .js"
 	},
 	"repository": {

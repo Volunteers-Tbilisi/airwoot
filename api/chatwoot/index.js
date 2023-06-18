@@ -130,7 +130,7 @@ async function updateAssignee(body, lastTicketId) {
 async function updateSource(body, lastTicketId) {
 	const exisistingChannel = await ticketModel.getTicketChannel(lastTicketId);
 	if (!!exisistingChannel) {
-			console.log(`Ticket channel remains unchanged. (ref id: ${exisistingChannel}).`);
+		console.log(`Ticket channel remains unchanged. (ref id: ${exisistingChannel}).`);
 		return;
 	}
 
@@ -146,13 +146,11 @@ async function updateSource(body, lastTicketId) {
 			channelName = null;
 	}
 
-	if (!!channelName) {
-			console.log(`Ticket channel name is undefined.`);
+	if (!channelName) {
+		console.log("Ticket channel name is undefined.");
 		return;
 	}
-
 	const channelId = await channelModel.getChannelId(channelName);
-
 	await ticketModel.updateChannel(lastTicketId, channelId);
 	console.log(`Ticket channel was assigned to a (ref id: ${channelId}).`);
 }
@@ -185,7 +183,7 @@ async function reopenConversation(body) {
 	// create ticket in airtable
 	const contactUrl = await contactModel.getContactAttr(ids);
 	const contactRecordId = contactUrl.split("/")[6].split("?")[0];
-	const ticket = await createTicket(contactRecordId, body.meta);
+	const ticket = await createTicket(contactRecordId, body.conversation.meta);
 
 	// send private msg to chatwoot
 	const ticketURL = await ticketModel.getTicketUrl(ticket);
